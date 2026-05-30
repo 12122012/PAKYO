@@ -28,7 +28,7 @@ except:
     os.system('pkg install -y python clang libffi openssl')
     os.system('pip install pycryptodome')
 #-----> Checking Latest File <-----#
-os.system('echo -e "\e]0; MR-MAFIA \a"')
+os.system('echo -e "\\e]0; PAKYO \\a"')
 os.system('git pull -q')
 
 #-----> Defines Modules -----#
