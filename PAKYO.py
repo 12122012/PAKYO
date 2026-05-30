@@ -349,8 +349,8 @@ def Maf_2(ids, names, passlist):
                 open("/sdcard/MR-MAFIA/MAFIA-CP.txt","a").write(ids+" | "+pas+"\n")
                 break
 
-            # ✅ JEDA WAKTI AMAN: 0.7 DETIK (JANGAN DIHAPUS)
-            time.sleep(0.7)
+            # ✅ JEDA WAKTI AMAN: 10 DETIK (JANGAN DIHAPUS)
+            time.sleep(10)
 
         loop += 1
 
